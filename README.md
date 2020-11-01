@@ -48,3 +48,7 @@ The addon writes two pixels on the screen that encode the mode and corresponding
 1. Multi-monitor setup support
 1. Improve process for dependency installations
 1. More modes (e.g. mana, chi)
+
+# Questions, requests, or issues?
+
+Feel free to submit a pull request or email me at minokar60@gmail.com.
