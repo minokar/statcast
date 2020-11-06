@@ -7,7 +7,7 @@ Cast stats from World of Warcraft to your LIFX smart lights! StatCast supports f
 
 # Requirements
 
-This initial version of StatCast requires World of Warcraft (retail or classic) running on macOS and a LIFX multizone light. The one used for development, the LIFX Z, can be purchased [here](https://amzn.to/3kPzPdB).
+This initial version of StatCast requires World of Warcraft (retail or classic) and a LIFX multizone light. The one used for development, the LIFX Z, can be purchased [here](https://amzn.to/3kPzPdB).
 
 # Setup
 
@@ -43,7 +43,6 @@ The addon writes two pixels on the screen that encode the mode and corresponding
 
 # Future improvements
 
-1. Windows support
 1. Support more smart light brands (e.g. Hue)
 1. Multi-monitor setup support
 1. Improve process for dependency installations

@@ -11,8 +11,10 @@ class ScreenReader():
 
     _, screen_height = pyautogui.size()
 
-    def __init__(self, pixel_value_to_mode_dict):
+    def __init__(self, pixel_value_to_mode_dict, mss):
         self.pixel_value_to_mode_dict = pixel_value_to_mode_dict
+        self.mss = mss
+
 
     def _extract_mode(self, mode_pixel_val):
         if mode_pixel_val in self.pixel_value_to_mode_dict.keys():
@@ -24,15 +26,9 @@ class ScreenReader():
     def read_values(self):
         # We capture a vertical slice of the left-hand side of the screen.
         # This allows us to capture both the top-left and bottom-left pixels
-        cgimg = CG.CGWindowListCreateImage(
-                CG.CGRectMake(0, 0, 1, self.screen_height),
-                CG.kCGWindowListOptionOnScreenOnly,
-                CG.kCGNullWindowID,
-                CG.kCGWindowImageDefault)
-        width = Quartz.CGImageGetWidth(cgimg)
-        height = Quartz.CGImageGetHeight(cgimg)
-        pixeldata = Quartz.CGDataProviderCopyData(Quartz.CGImageGetDataProvider(cgimg))
-        bpr = Quartz.CGImageGetBytesPerRow(cgimg)
-        pilimage = Image.frombuffer("RGBA", (width, height), pixeldata, "raw", "BGRA", bpr, 1)
-        return self._extract_mode(pilimage.getpixel((0,0))[0]), pilimage.getpixel((0, pilimage.size[1] - 1))[0]
+        rect = {"left": 0, "top": 0, "width": 1, "height": self.screen_height}
+
+        screenshot = self.mss.grab(rect)
+        mode, stat_value = self._extract_mode(screenshot.pixel(0,0)[0]), screenshot.pixel(0, screenshot.height - 1)[0]
+        return mode, stat_value
         
