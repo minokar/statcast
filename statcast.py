@@ -7,6 +7,7 @@ from plugins.hp_handler import HpHandler
 from plugins.energy_handler import EnergyHandler
 from plugins.combo_points_handler import ComboPointsHandler
 from plugins.rage_handler import RageHandler
+from plugins.combat_handler import CombatHandler
 from statcast_runner import StatcastRunner
 from sys import platform
 import mss
@@ -38,13 +39,15 @@ with mss.mss() as sct:
                 0: Mode.HP,
                 1: Mode.COMBO_POINTS,
                 2: Mode.ENERGY,
-                3: Mode.RAGE
+                3: Mode.RAGE,
+                4: Mode.COMBAT
             },
             mss = sct),
         plugins = {
             Mode.HP: HpHandler(light),
             Mode.COMBO_POINTS: ComboPointsHandler(light),
             Mode.ENERGY: EnergyHandler(light),
-            Mode.RAGE: RageHandler(light)
+            Mode.RAGE: RageHandler(light),
+            Mode.COMBAT: CombatHandler(light)
     })
 statcast_runner.run()
