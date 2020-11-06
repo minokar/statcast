@@ -16,7 +16,7 @@ For this addon & script to work out-of-the box:
 1. Ensure you have a single LIFX multizone light, such as the [LIFX Z](https://amzn.to/3kPzPdB), enabled on your network.
 1. Clone this repository and place it into the Addons folder of either WoW retail or classic. **Note:** the directory name needs to be *statcast* in order for WoW to pick up the addon.
 1. Make sure you have Python 3 installed.
-1. Install the necessary Python dependencies: run `python3 -m pip install lifxlan`, `python3 -m pip install pyautogui`, and `python3 -m pip install Pillow`. Proper `setup.py` file hopefully coming soon.
+1. Install the necessary Python dependencies: run `python3 -m pip install lifxlan`, `python3 -m pip install pyautogui`, and `python3 -m pip install mss`. Proper `setup.py` file hopefully coming soon.
 
 # Using StatCast
 
