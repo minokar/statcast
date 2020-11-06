@@ -1,4 +1,4 @@
-import screen_reader
+
 from mode import Mode
 from screen_reader import ScreenReader
 import time
@@ -8,6 +8,8 @@ from plugins.energy_handler import EnergyHandler
 from plugins.combo_points_handler import ComboPointsHandler
 from plugins.rage_handler import RageHandler
 from statcast_runner import StatcastRunner
+from sys import platform
+import mss
 
 MAX_CONNECTION_RETRIES = 5
 
@@ -28,18 +30,21 @@ if light is None:
 
 print("Connected!")
 
-statcast_runner = StatcastRunner(
-    light,
-    ScreenReader(pixel_value_to_mode_dict = {
-        0: Mode.HP,
-        1: Mode.COMBO_POINTS,
-        2: Mode.ENERGY,
-        3: Mode.RAGE
-    }),
-    plugins = {
-        Mode.HP: HpHandler(light),
-        Mode.COMBO_POINTS: ComboPointsHandler(light),
-        Mode.ENERGY: EnergyHandler(light),
-        Mode.RAGE: RageHandler(light)
-})
+with mss.mss() as sct:
+    statcast_runner = StatcastRunner(
+        light,
+        ScreenReader(
+            pixel_value_to_mode_dict = {
+                0: Mode.HP,
+                1: Mode.COMBO_POINTS,
+                2: Mode.ENERGY,
+                3: Mode.RAGE
+            },
+            mss = sct),
+        plugins = {
+            Mode.HP: HpHandler(light),
+            Mode.COMBO_POINTS: ComboPointsHandler(light),
+            Mode.ENERGY: EnergyHandler(light),
+            Mode.RAGE: RageHandler(light)
+    })
 statcast_runner.run()
