@@ -1,6 +1,6 @@
 # StatCast
 
-Cast stats from World of Warcraft to your LIFX smart lights! StatCast supports four modes today in both Retail and Classic: HP, Combo Points, Energy, and Rage. Please click the YouTube video below for a demo of each.
+Cast stats from World of Warcraft to your LIFX smart lights! Please click the YouTube video below for a demo.
 
 [![Video](http://i3.ytimg.com/vi/FFQVoTkSsx8/hqdefault.jpg)](https://youtu.be/FFQVoTkSsx8)
 
@@ -28,6 +28,7 @@ The default mode is HP, but you can run any of the below commands in-game to cha
 1. `/setmode 1`: Enables the combo point mode.
 1. `/setmode 2`: Enables the energy mode.
 1. `/setmode 3`: Enables the rage mode.
+1. `/setmode 4`: Enables the mode indicating when your character is in combat.
 
 # Caveats
 
