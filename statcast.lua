@@ -30,7 +30,7 @@ local statsTexture = initTexture(statsFrame)
 statsFrame:Show()
 
 local function updateComboPoints()
-    points = GetComboPoints("player", "target") -- UnitPower for combo points does not work in Classic.
+    local points = GetComboPoints("player", "target") -- UnitPower for combo points does not work in Classic.
     statsTexture:SetColorTexture(points / 255, points / 255, points / 255, 1)
 end
 
@@ -58,6 +58,16 @@ local function updateRage()
 
     local rage_fraction = UnitPower("player", 1) / max_rage 
     statsTexture:SetColorTexture(rage_fraction, rage_fraction, rage_fraction, 1)
+end
+
+local function updateCombat()
+    local pixel_value
+    if UnitAffectingCombat("player") then 
+        pixel_value = 1 / 255.0
+    else
+        pixel_value = 0
+    end
+    statsTexture:SetColorTexture(pixel_value, pixel_value, pixel_value, 1)
 end
 
 local function updateModeTexture(pixel_val)
@@ -92,13 +102,19 @@ local function shouldTriggerRageUpdate(event, ...)
     return isUnitPowerFrequentEventForPlayer("RAGE", event, ...)
 end
 
+local function shouldTriggerCombatUpdate(event, ...)
+    local is_regen_event =  event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED"
+    return is_regen_event
+end
+
 -- The mode encodes the pixel value of the mode texture.
 -- This must match the values in the Python script.
 Modes = {
     HP = 0,
     COMBO_POINTS = 1,
     ENERGY = 2,
-    RAGE = 3
+    RAGE = 3,
+    COMBAT = 4
 }
 
 local mode = Modes.HP
@@ -108,7 +124,8 @@ event_should_trigger_update_plugins = {
     [Modes.HP] = shouldTriggerHpUpdate,
     [Modes.COMBO_POINTS] = shouldTriggerComboPointsUpdate,
     [Modes.ENERGY] = shouldTriggerEnergyUpdate,
-    [Modes.RAGE] = shouldTriggerRageUpdate
+    [Modes.RAGE] = shouldTriggerRageUpdate,
+    [Modes.COMBAT] = shouldTriggerCombatUpdate
 }
 
 -- (2) Plugins for the update itself
@@ -116,7 +133,8 @@ update_plugins = {
     [Modes.HP] = updateHealth,
     [Modes.COMBO_POINTS] = updateComboPoints,
     [Modes.ENERGY] = updateEnergy,
-    [Modes.RAGE] = updateRage
+    [Modes.RAGE] = updateRage,
+    [Modes.COMBAT] = updateCombat
 }
 
 -- (3) Name plugins for mode values.
@@ -124,19 +142,23 @@ name_plugins = {
     [Modes.HP] = "HP",
     [Modes.COMBO_POINTS] = "Combo Points",
     [Modes.ENERGY] = "Energy",
-    [Modes.RAGE] = "Rage"
+    [Modes.RAGE] = "Rage",
+    [Modes.COMBAT] = "Combat"
 }
 
 -- (4) Register the events for each mode.
 event_plugins = {
-    [Modes.HP] = "UNIT_HEALTH",
-    [Modes.COMBO_POINTS] = "UNIT_POWER_FREQUENT",
-    [Modes.ENERGY] = "UNIT_POWER_FREQUENT",
-    [Modes.RAGE] = "UNIT_POWER_FREQUENT"
+    [Modes.HP] = {"UNIT_HEALTH"},
+    [Modes.COMBO_POINTS] = {"UNIT_POWER_FREQUENT"},
+    [Modes.ENERGY] = {"UNIT_POWER_FREQUENT"},
+    [Modes.RAGE] = {"UNIT_POWER_FREQUENT"},
+    [Modes.COMBAT] = {"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"}
 }
 
-for _, event in pairs(event_plugins) do
-    eventFrame:RegisterEvent(event)
+for _, event_list in pairs(event_plugins) do
+    for _, event in pairs(event_list) do
+        eventFrame:RegisterEvent(event)
+    end
 end
 
 local function SetModeCallback(msg, editbox)

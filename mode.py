@@ -7,3 +7,4 @@ class Mode(Enum):
     COMBO_POINTS = 2
     ENERGY = 3
     RAGE = 4
+    COMBAT = 5
