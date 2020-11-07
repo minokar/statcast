@@ -1,6 +1,6 @@
 # StatCast
 
-Cast stats from World of Warcraft to your LIFX smart lights! Please click the YouTube video below for a demo.
+Cast events and stats from World of Warcraft to your LIFX smart lights! Please click the YouTube video below for a demo of some of the features.
 
 [![Video](http://i3.ytimg.com/vi/FFQVoTkSsx8/hqdefault.jpg)](https://youtu.be/FFQVoTkSsx8)
 
