@@ -1,8 +1,6 @@
 # Reads the screen and returns relevant data.
 
 import pyautogui
-import Quartz.CoreGraphics as CG
-import Quartz
 from PIL import Image
 from enum import Enum
 from mode import Mode
